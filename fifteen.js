@@ -1,8 +1,3 @@
-// Eric Henke
-// CSE 154 AJ
-// This page provides the javascript that makes fifteen.html interactive, as well as adding some controls to fifteen.html for the extra feature
-//Extra feature: Different puzzle sizes.
-
 (function(){
 	"use strict";
 
@@ -45,6 +40,17 @@
 		puzzleSize = this.value;
 		tileSize = parseInt(400 / puzzleSize);
 		makeTiles();		
+	}
+
+	//Checks win condition by checking if current position equal to initial position
+	function checkWin() {
+		var tiles = document.querySelectorAll(".tile");
+		for(var i = 0; i < tiles.length; i++) {
+			if(tiles[i].id != tiles[i].dataset.initial) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	//Creates a size selection list, 3x3 to 9x9
@@ -140,9 +146,15 @@
 			var tile = document.createElement("div");
 			tile.classList.add("tile");
 			tile.classList.add(fontClass);
-			tile.style.width = tile.style.height = tileSize - 10 + "px";	
+
+			//Account for border(x2 for each side) - set in fifteen.css
+			tile.style.width = tile.style.height = tileSize - 6 + "px";
 			tile.style.backgroundSize = imageSize + "px " + imageSize + "px";
 			tilePosition(tile, row, col);
+
+			//Give tiles a class detailing their initial position, in order to check win
+			var initialPos = "tile_" + row + "_" + col;
+			tile.dataset.initial = initialPos;
 
 			//Give numbers to tiles
 			var num = document.createElement("p");
@@ -168,6 +180,7 @@
 
 	//Shuffles the board by finding neighboring tiles and randomly selecting one to move.  Once finished, finds and styles neighboring tiles.
 	function shuffle() {
+		winShow(false);
 		for(var i = 0; i < 1000; i++) { 
 			var neighbors = getNeighbors();				
 			var rand = parseInt(Math.random() * neighbors.length);
@@ -184,6 +197,9 @@
 			neighbors[i].onclick = function() {
 				move(this);
 				styleNeighbors(getNeighbors());
+				if(checkWin()) {
+					winShow(true);
+				}
 			};
 		}
 	}
@@ -196,5 +212,16 @@
 		tile.style.left = xCoord + "px";
 		tile.style.backgroundPosition = (xCoord * -1) + "px " + (yCoord * -1) + "px";
 	}
+
+	function winShow(bool) {
+		var win = document.getElementById("win");
+		if(bool) {
+			win.style.display = "block";
+		} else {
+			win.style.display = "none";
+		}
+	}
+
+	
 
 })();

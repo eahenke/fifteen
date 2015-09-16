@@ -1,13 +1,15 @@
-/* Eric Henke
-CSE 154 AJ
-This page styles fifteen.html
-Extra feature: different puzzle sizes */
-
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14pt;
-	padding: 1em; /*Not necessarily in spec, but it looks a lot nicer */
+	padding: 1em;
+	margin-right: auto;
+	margin-left: auto;
 	text-align: center;
+}
+
+button {
+	width: 75px;
+	height: 40px;
 }
 
 fieldset {
@@ -16,8 +18,18 @@ fieldset {
 	padding: 0.5em;
 }
 
+h1 {
+	margin-top: 0;
+}
+
+h1 + p {
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .neighbor:hover {
-	border: 5px solid red;	
+	border: 3px solid red;	
 	color: red;
 	cursor: pointer;
 }
@@ -42,7 +54,7 @@ fieldset {
 /*Tile size determined by puzzle size in fifteen.js*/
 .tile {
 	background-image: url("background.jpg");
-	border: 5px solid black;
+	border: 3px solid black;
 	color: green;	
 	margin: 0;
 	position: absolute;	
@@ -54,4 +66,22 @@ fieldset {
 
 .tile p:hover {
 	cursor: default;
+}
+
+#win {
+	background-color: rgba(0, 0, 0, 0.6);
+	display: none;
+	height: 300px;
+	position: absolute;
+	top: 52%;
+	transform: translateY(-50%);
+	width: 95%;
+}
+
+#win p {
+	color: white;
+	font-size: 2.7em;	
+	margin-top: 2em;
+	text-align: center;
+	
 }
