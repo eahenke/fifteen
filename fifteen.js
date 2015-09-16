@@ -1,0 +1,200 @@
+// Eric Henke
+// CSE 154 AJ
+// This page provides the javascript that makes fifteen.html interactive, as well as adding some controls to fifteen.html for the extra feature
+//Extra feature: Different puzzle sizes.
+
+(function(){
+	"use strict";
+
+	//Module-Global variables
+
+	//Sets default puzzle size and default selected puzzle size option
+	//To change puzzle size, only change here, everything else is relative.
+	var puzzleSize = 4;
+	var emptyRow = puzzleSize -1;
+	var emptyCol = puzzleSize -1;
+	var tileSize = parseInt(400 / puzzleSize);
+	
+
+	//Creates a puzzle size control, attaches event handler to shuffle button and calls functions that create the initial board on load.
+	window.onload = function() {
+
+		createControl();
+
+		var shuffleBtn = document.getElementById("shufflebutton");
+		shuffleBtn.onclick = shuffle;
+
+		var size = document.getElementById("size");
+		size.onchange = changeSize;
+
+		makeTiles();
+	};
+	
+	//Assigns IDs to the tiles based on their positions
+	function assignIds() {
+		var tiles = document.querySelectorAll(".tile");
+		for(var i = 0; i < tiles.length; i++) {
+			var row = parseInt(tiles[i].style.top) / tileSize;
+			var col = parseInt(tiles[i].style.left) / tileSize;
+			tiles[i].id = "tile_" + row + "_" + col;
+		}
+	}
+
+	//Changes the size of the puzzle
+	function changeSize() {
+		puzzleSize = this.value;
+		tileSize = parseInt(400 / puzzleSize);
+		makeTiles();		
+	}
+
+	//Creates a size selection list, 3x3 to 9x9
+	function createControl() {
+		var sizeField = document.createElement("fieldset");
+		var legend = document.createElement("legend");
+		var sizeSelect = document.createElement("select");
+		
+		for(var i = 3; i < 10; i++) {
+			var option = document.createElement("option");
+			option.value = i;			
+			option.innerHTML = i + "x" + i;
+			if(i == puzzleSize) {
+				option.selected = "selected";
+			}
+			sizeSelect.appendChild(option);
+		}
+
+		legend.innerHTML = "Puzzle Size:";
+		sizeSelect.id = "size";
+		sizeField.appendChild(legend);
+		sizeField.appendChild(sizeSelect);
+
+		var controls = document.getElementById("controls");
+		controls.appendChild(sizeField);
+	}
+
+	//Scales font size for smaller tiles, for readability
+	function fontSize() {
+		if(puzzleSize < 6) {
+			return "normal";
+		} else {
+			return "small";
+		}		
+	}
+
+	//Returns an array of tiles that neighbor the empty space, clearing out old neighbors each time.
+	function getNeighbors() {
+		assignIds();
+
+		//Clears out old neighbors
+		var oldNeighbors = document.querySelectorAll(".neighbor");
+		for(var i = 0; i < oldNeighbors.length; i++) {
+			oldNeighbors[i].classList.remove("neighbor");
+			oldNeighbors[i].onclick = null;
+		}
+		
+		//Creates array of current neighbors
+		var neighbors = [];
+		
+		//list of possible neighbor ids
+		var west = "tile_" + emptyRow + "_" + (emptyCol - 1);
+		var north = "tile_" + (emptyRow - 1) + "_" + emptyCol;
+		var east = "tile_" + emptyRow + "_" + (emptyCol + 1);
+		var south = "tile_" + (emptyRow + 1) + "_" + emptyCol;
+
+		var possibleNeighbors = [west, north, east, south];
+		
+		//check that possible neighbors are actually existing tiles
+		for(var i = 0; i < possibleNeighbors.length; i++) {
+			if(document.getElementById(possibleNeighbors[i])) {
+				neighbors.push(document.getElementById(possibleNeighbors[i]));
+			}
+		}
+		
+		return neighbors;		
+	}
+
+	//Creates the initial board
+	function makeTiles() {
+		emptyRow = emptyCol = puzzleSize -1;
+		var row = 0;
+		var col = 0;
+		var fontClass = fontSize();
+
+		//Fits image to custom puzzle board size.
+		//Board size can change by a few pixels due to rounding tileSize.
+		var imageSize = tileSize * puzzleSize;
+
+		var area = document.getElementById("puzzlearea");
+		area.innerHTML = "";
+
+		//Creates the puzzle tiles
+		for(var i = 0; i < (puzzleSize * puzzleSize) -1; i++) {
+			
+			//Increases row and resets column based on puzzle size.
+			if(i > 0 && i % puzzleSize == 0) {
+				row++;
+				col = 0;
+			}
+
+			//Styles and positions each tile, depending on puzzle size
+			var tile = document.createElement("div");
+			tile.classList.add("tile");
+			tile.classList.add(fontClass);
+			tile.style.width = tile.style.height = tileSize - 10 + "px";	
+			tile.style.backgroundSize = imageSize + "px " + imageSize + "px";
+			tilePosition(tile, row, col);
+
+			//Give numbers to tiles
+			var num = document.createElement("p");
+			num.innerHTML = i + 1;
+			tile.appendChild(num);
+			area.appendChild(tile);
+			
+			col++;
+		}
+		styleNeighbors(getNeighbors());
+	}
+
+	//Moves a neighboring tile to the empty space
+	function move(neighbor) {		
+		var left = emptyCol * tileSize + "px";
+		var top = emptyRow * tileSize + "px";
+		
+		emptyRow = parseInt(neighbor.style.top) / tileSize;
+		emptyCol = parseInt(neighbor.style.left) / tileSize;
+		neighbor.style.top = top;
+		neighbor.style.left = left;	
+	}
+
+	//Shuffles the board by finding neighboring tiles and randomly selecting one to move.  Once finished, finds and styles neighboring tiles.
+	function shuffle() {
+		for(var i = 0; i < 1000; i++) { 
+			var neighbors = getNeighbors();				
+			var rand = parseInt(Math.random() * neighbors.length);
+			var neighbor = neighbors[rand];
+			move(neighbor);			
+		}
+		styleNeighbors(getNeighbors());
+	}
+	
+	//Gives class of .neighbor to neighboring tiles and attaches an onclick event.  When clicked, the tile moves and the neighbors are refreshed.
+	function styleNeighbors(neighbors) {
+		for(var i = 0; i < neighbors.length; i++) {
+			neighbors[i].classList.add("neighbor");
+			neighbors[i].onclick = function() {
+				move(this);
+				styleNeighbors(getNeighbors());
+			};
+		}
+	}
+	
+	//Gives initial tiles positions and background sections to display
+	function tilePosition(tile, row, col) {
+		var xCoord = col * tileSize;
+		var yCoord = row * tileSize;
+		tile.style.top = yCoord + "px";
+		tile.style.left = xCoord + "px";
+		tile.style.backgroundPosition = (xCoord * -1) + "px " + (yCoord * -1) + "px";
+	}
+
+})();
