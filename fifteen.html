@@ -2,7 +2,7 @@
 <html>
 	
 	<head>
-		<title>CSE 154 Fifteen Puzzle</title>
+		<title>Fifteen Puzzle</title>
 
 		<link href="https://webster.cs.washington.edu/images/fifteen/fifteen.gif"
 		      type="image/gif" rel="shortcut icon" />
@@ -10,7 +10,6 @@
 		
 		<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 		<link href="fifteen.css" type="text/css" rel="stylesheet" />
-		<script src="fifteen.js" type="text/javascript"></script>
 	</head>
 
 	<body>
@@ -28,15 +27,40 @@
 		-->
 		</div>
 
-		<p id="controls">
+		<div id="controls">
 			<button id="shufflebutton">Shuffle</button>
-		</p>
+		</div>
 		
-		<div id="output"></div>
+		<div id="alternates">
+			<h2>Alternate puzzle images</h2>
+			
+			<div class="alt-img current">
+				<img src="images/dome.jpg" alt="Dome of the Rock" />
+				<span>Current</span>
+			</div>
+
+			<div class="alt-img">
+				<img src="images/delicatearch.jpg" alt="Delicate Arch" />
+				<span>Current</span>
+			</div>
+
+			<div class="alt-img">
+				<img src="images/dubrovnik.jpg" alt="Dubrovnik" />
+				<span>Current</span>
+			</div>
+
+			<div class="alt-img">
+				<img src="images/moscow.jpg" alt="Moscow" />
+				<span>Current</span>
+			</div>
+		</div>
+
+
 
 		<div id='win'>
 			<p>Winner winner, chicken dinner!</p>
 		</div>
 
+		<script src="fifteen.js" type="text/javascript"></script>
 	</body>
 </html>

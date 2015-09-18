@@ -23,6 +23,7 @@
 		size.onchange = changeSize;
 
 		makeTiles();
+		enableImageChange();
 	};
 	
 	//Assigns IDs to the tiles based on their positions
@@ -33,6 +34,29 @@
 			var col = parseInt(tiles[i].style.left) / tileSize;
 			tiles[i].id = "tile_" + row + "_" + col;
 		}
+	}
+
+	//Changes the puzzle image
+	function enableImageChange() {
+		
+		var alts = document.querySelectorAll('.alt-img');
+		for(var i = 0; i < alts.length; i++) {
+			alts[i].onclick = function() {
+				document.querySelector('.current').classList.remove('current');
+				this.classList.add('current');
+
+				var img = this.getElementsByTagName('img')[0];				
+
+				var tiles = document.querySelectorAll('.tile');
+
+				for(var i = 0; i < tiles.length; i++) {
+					
+					tiles[i].style.backgroundImage = "url('"+ img.src + "')";
+				}
+
+			}
+		}
+
 	}
 
 	//Changes the size of the puzzle
