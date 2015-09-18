@@ -1,3 +1,30 @@
+.altenates {
+	margin-right: auto;
+	margin-left: auto;
+	width: 70%;
+}
+
+.alt-img {
+	cursor: pointer;
+	height: 200px;
+	width: 200px;
+	display: inline-block;	
+	margin-right: 1em;
+	margin-left: 1em;
+	position: relative;
+}
+
+.alt-img img {
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.alt-img span {
+	display: none;
+}
+
+
+
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14pt;
@@ -11,6 +38,24 @@ button {
 	width: 75px;
 	height: 40px;
 }
+
+.current img {
+	opacity: 0.4;
+}
+
+.current span {
+	display: block;
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	text-align: center;
+	font-size: 1.5em;
+	color: white;
+	text-shadow: 3px 3px #000;
+	font-weight: bold;
+}
+
+
 
 fieldset {
 	display: inline-block;
@@ -39,8 +84,16 @@ h1 + p {
 	font-size: 40pt;
 }
 
+.normal p {
+	text-shadow: 3px 3px #000;
+}
+
 .small {
 	font-size: 15pt;
+}
+
+.small p {
+	text-shadow: 2px 2px #000;
 }
 
 #puzzlearea {
@@ -53,7 +106,7 @@ h1 + p {
 
 /*Tile size determined by puzzle size in fifteen.js*/
 .tile {
-	background-image: url("background.jpg");
+	background-image: url("images/dome.jpg");
 	border: 3px solid black;
 	color: green;	
 	margin: 0;
@@ -62,6 +115,14 @@ h1 + p {
 
 .tile p {
 	margin: auto;
+	color: #fff;
+	width: 100%;
+	text-align: center;
+
+	/*Vertical center*/
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 .tile p:hover {
