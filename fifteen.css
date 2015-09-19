@@ -22,13 +22,10 @@
 	display: none;
 }
 
-
-
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14pt;
 	padding: 0em;
-	position: relative;
 	margin-right: auto;
 	margin-left: auto;
 	text-align: center;
@@ -56,7 +53,6 @@ button {
 	left: 50%;
 	top: 0;
 	transform: translateX(-50%);
-
 }
 
 #controls:after {
@@ -86,10 +82,7 @@ button {
 	font-weight: bold;
 }
 
-
-
 fieldset {
-	/*display: inline-block;*/
 	float: left;
 	font-size: 10pt;
 	padding: 0.5em;
@@ -109,8 +102,11 @@ h1 + p {
 
 .neighbor:hover {
 	border: 3px solid red;	
-	color: red;
 	cursor: pointer;
+}
+
+.neighbor:hover p {
+	color: red;	
 }
 
 /*.normal and .small alter font size depending on tile size for readability.*/
@@ -171,13 +167,12 @@ h1 + p {
 	position: absolute;
 	top: 52%;
 	transform: translateY(-50%);
-	width: 95%;
+	width: 100%;
 }
 
 #win p {
 	color: white;
 	font-size: 2.7em;	
 	margin-top: 2em;
-	text-align: center;
-	
+	text-align: center;	
 }
