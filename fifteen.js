@@ -14,7 +14,7 @@
 	//Creates a puzzle size control, attaches event handler to shuffle button and calls functions that create the initial board on load.
 	window.onload = function() {
 
-		createControl();
+		//createControl();
 
 		var shuffleBtn = document.getElementById("shufflebutton");
 		shuffleBtn.onclick = shuffle;
@@ -24,6 +24,9 @@
 
 		makeTiles();
 		enableImageChange();
+		numberControl();
+
+
 	};
 	
 	//Assigns IDs to the tiles based on their positions
@@ -36,28 +39,6 @@
 		}
 	}
 
-	//Changes the puzzle image
-	function enableImageChange() {
-		
-		var alts = document.querySelectorAll('.alt-img');
-		for(var i = 0; i < alts.length; i++) {
-			alts[i].onclick = function() {
-				document.querySelector('.current').classList.remove('current');
-				this.classList.add('current');
-
-				var img = this.getElementsByTagName('img')[0];				
-
-				var tiles = document.querySelectorAll('.tile');
-
-				for(var i = 0; i < tiles.length; i++) {
-					
-					tiles[i].style.backgroundImage = "url('"+ img.src + "')";
-				}
-
-			}
-		}
-
-	}
 
 	//Changes the size of the puzzle
 	function changeSize() {
@@ -77,7 +58,8 @@
 		return true;
 	}
 
-	//Creates a size selection list, 3x3 to 9x9
+	//NOTE: currently disable, select list is now supplied by html file
+	//Creates a size selection list, 3x3 to 9x9	
 	function createControl() {
 		var sizeField = document.createElement("fieldset");
 		var legend = document.createElement("legend");
@@ -100,6 +82,19 @@
 
 		var controls = document.getElementById("controls");
 		controls.appendChild(sizeField);
+	}
+
+	//Assigns event handler for alternate puzzle images
+	function enableImageChange() {
+		
+		var alts = document.querySelectorAll('.alt-img');
+		for(var i = 0; i < alts.length; i++) {
+			alts[i].onclick = function() {
+				document.querySelector('.current').classList.remove('current');
+				this.classList.add('current');
+				getPuzzleImage();
+			}
+		}
 	}
 
 	//Scales font size for smaller tiles, for readability
@@ -141,6 +136,16 @@
 		}
 		
 		return neighbors;		
+	}
+
+	//Sets puzzle background image to the currently selected puzzle image
+	function getPuzzleImage() {
+		var img = document.querySelector('.current').getElementsByTagName('img')[0];
+		var tiles = document.querySelectorAll('.tile');
+
+		for(var i = 0; i < tiles.length; i++) {					
+			tiles[i].style.backgroundImage = "url('"+ img.src + "')";
+		}
 	}
 
 	//Creates the initial board
@@ -189,6 +194,12 @@
 			col++;
 		}
 		styleNeighbors(getNeighbors());
+		
+		numbersDisplay(numberCheck());
+
+		getPuzzleImage();
+
+
 	}
 
 	//Moves a neighboring tile to the empty space
@@ -200,6 +211,35 @@
 		emptyCol = parseInt(neighbor.style.left) / tileSize;
 		neighbor.style.top = top;
 		neighbor.style.left = left;	
+	}
+
+
+	//Assigns click event to number on/off radio buttons
+	function numberControl() {		
+		var numbersBtn = document.getElementsByName('numbers');
+		for(var i = 0; i < numbersBtn.length; i++) {
+			numbersBtn[i].onchange = function() {
+				numbersDisplay(numberCheck());
+			};
+		}
+	}
+
+	//Returns the value of the checked numbers on/off radio button.  Returns either 'block' or 'none'
+	function numberCheck() {
+		var numbersBtn = document.getElementsByName('numbers');
+		for(var i = 0; i < numbersBtn.length; i ++) {
+			if(numbersBtn[i].checked) {
+				return numbersBtn[i].value;
+			}
+		}
+	}
+
+	//Displays tile numbes based on value of checked numbers on/off radio
+	function numbersDisplay(val) {
+		var numbers = document.querySelectorAll('.tile p');
+		for(var i = 0; i < numbers.length; i++) {
+			numbers[i].style.display = val;
+		}
 	}
 
 	//Shuffles the board by finding neighboring tiles and randomly selecting one to move.  Once finished, finds and styles neighboring tiles.
@@ -218,6 +258,8 @@
 	function styleNeighbors(neighbors) {
 		for(var i = 0; i < neighbors.length; i++) {
 			neighbors[i].classList.add("neighbor");
+			
+			//assign handlers
 			neighbors[i].onclick = function() {
 				move(this);
 				styleNeighbors(getNeighbors());
@@ -237,6 +279,7 @@
 		tile.style.backgroundPosition = (xCoord * -1) + "px " + (yCoord * -1) + "px";
 	}
 
+	//Shows/hides win notice
 	function winShow(bool) {
 		var win = document.getElementById("win");
 		if(bool) {
@@ -244,8 +287,6 @@
 		} else {
 			win.style.display = "none";
 		}
-	}
-
-	
+	}	
 
 })();
