@@ -1,7 +1,34 @@
+#alternates {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.alt-img {
+	cursor: pointer;
+	height: 200px;
+	width: 200px;
+	display: inline-block;	
+	margin-right: 1em;
+	margin-left: 1em;
+	position: relative;
+}
+
+.alt-img img {
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.alt-img span {
+	display: none;
+}
+
+
+
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14pt;
-	padding: 1em;
+	padding: 0em;
+	position: relative;
 	margin-right: auto;
 	margin-left: auto;
 	text-align: center;
@@ -10,12 +37,64 @@ body {
 button {
 	width: 75px;
 	height: 40px;
+	float: left;
+	margin-top: 1em;
 }
 
+
+/*Control wrapper necessary for centering floated fieldsets, which is necessary to deal with 
+  weird vertical alignment caused by inline-block*/
+#control-wrapper {
+	width: 100%;
+	height: 50px;
+	position: relative;	
+}
+
+#controls {
+	overflow: hidden;
+	position: absolute;
+	left: 50%;
+	top: 0;
+	transform: translateX(-50%);
+
+}
+
+#controls:after {
+	clear: both;
+}
+
+.credit {
+	text-align: center;
+	font-size: 0.7em;
+	margin-bottom: 0;
+	margin-top: 2em;
+}
+
+.current img {
+	opacity: 0.4;
+}
+
+.current span {
+	display: block;
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	text-align: center;
+	font-size: 1.5em;
+	color: white;
+	text-shadow: 3px 3px #000;
+	font-weight: bold;
+}
+
+
+
 fieldset {
-	display: inline-block;
+	/*display: inline-block;*/
+	float: left;
 	font-size: 10pt;
 	padding: 0.5em;
+	height: 40px;
+	width: 110px;
 }
 
 h1 {
@@ -39,12 +118,21 @@ h1 + p {
 	font-size: 40pt;
 }
 
+.normal p {
+	text-shadow: 3px 3px #000;
+}
+
 .small {
 	font-size: 15pt;
 }
 
+.small p {
+	text-shadow: 2px 2px #000;
+}
+
 #puzzlearea {
 	height: 400px;
+	margin-bottom: 0.5em;
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
@@ -53,7 +141,7 @@ h1 + p {
 
 /*Tile size determined by puzzle size in fifteen.js*/
 .tile {
-	background-image: url("background.jpg");
+	background-image: url("images/dome.jpg");
 	border: 3px solid black;
 	color: green;	
 	margin: 0;
@@ -62,6 +150,14 @@ h1 + p {
 
 .tile p {
 	margin: auto;
+	color: #fff;
+	width: 100%;
+	text-align: center;
+
+	/*Vertical center*/
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 .tile p:hover {
