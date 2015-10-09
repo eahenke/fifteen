@@ -14,8 +14,7 @@
 	//Creates a puzzle size control, attaches event handler to shuffle button and calls functions that create the initial board on load.
 	window.onload = function() {
 
-		//createControl();
-
+		//Assign event handlers and initialize
 		var shuffleBtn = document.getElementById("shufflebutton");
 		shuffleBtn.onclick = shuffle;
 
@@ -25,8 +24,6 @@
 		makeTiles();
 		enableImageChange();
 		numberControl();
-
-
 	};
 	
 	//Assigns IDs to the tiles based on their positions
@@ -50,40 +47,14 @@
 	//Checks win condition by checking if current position equal to initial position
 	function checkWin() {
 		var tiles = document.querySelectorAll(".tile");
-		for(var i = 0; i < tiles.length; i++) {
+		~for(var i = 0; i < tiles.length; i++) {
 			if(tiles[i].id != tiles[i].dataset.initial) {
 				return false;
 			}
 		}
 		return true;
-	}
-
-	//NOTE: currently disable, select list is now supplied by html file
-	//Creates a size selection list, 3x3 to 9x9	
-	function createControl() {
-		var sizeField = document.createElement("fieldset");
-		var legend = document.createElement("legend");
-		var sizeSelect = document.createElement("select");
-		
-		for(var i = 3; i < 10; i++) {
-			var option = document.createElement("option");
-			option.value = i;			
-			option.innerHTML = i + "x" + i;
-			if(i == puzzleSize) {
-				option.selected = "selected";
-			}
-			sizeSelect.appendChild(option);
-		}
-
-		legend.innerHTML = "Puzzle Size:";
-		sizeSelect.id = "size";
-		sizeField.appendChild(legend);
-		sizeField.appendChild(sizeSelect);
-
-		var controls = document.getElementById("controls");
-		controls.appendChild(sizeField);
-	}
-
+	}	
+	
 	//Assigns event handler for alternate puzzle images
 	function enableImageChange() {
 		
@@ -93,7 +64,7 @@
 				document.querySelector('.current').classList.remove('current');
 				this.classList.add('current');
 				getPuzzleImage();
-			}
+			};
 		}
 	}
 
