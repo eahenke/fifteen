@@ -47,7 +47,7 @@
 	//Checks win condition by checking if current position equal to initial position
 	function checkWin() {
 		var tiles = document.querySelectorAll(".tile");
-		~for(var i = 0; i < tiles.length; i++) {
+		for(var i = 0; i < tiles.length; i++) {
 			if(tiles[i].id != tiles[i].dataset.initial) {
 				return false;
 			}
