@@ -53,6 +53,9 @@ button {
 	left: 50%;
 	top: 0;
 	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
 }
 
 #controls:after {
@@ -178,4 +181,39 @@ h1 + p {
 	font-size: 2.7em;	
 	margin-top: 2em;
 	text-align: center;	
+}
+
+/*Responsive styles*/
+
+@media all and (max-width: 800px) {
+	#puzzlearea {
+		height: 300px;
+		width: 300px;
+	}
+
+	#control-wrapper {
+		position: static;
+		display: block;
+		padding: 5%;
+	}
+
+	#controls {
+		position: static;
+		transform: none;
+		-webkit-transform: none;
+		-moz-transform: none;
+		-o-transform: none;
+		text-align: center;
+		margin: 0 auto;
+	}
+
+	.normal {
+		font-size: 30pt;
+	}
+
+	.normal p {
+	text-shadow: 2px 2px #000;
+}
+
+
 }
