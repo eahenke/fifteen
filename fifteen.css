@@ -43,23 +43,15 @@ button {
   weird vertical alignment caused by inline-block*/
 #control-wrapper {
 	width: 100%;
-	height: 50px;
-	position: relative;	
+	display: block;
+	text-align: center;
+	overflow: hidden;
 }
 
 #controls {
 	overflow: hidden;
-	position: absolute;
-	left: 50%;
-	top: 0;
-	transform: translateX(-50%);
-	-webkit-transform: translateX(-50%);
-	-moz-transform: translateX(-50%);
-	-o-transform: translateX(-50%);
-}
-
-#controls:after {
-	clear: both;
+	margin: 0 auto;
+	display: inline-block;
 }
 
 .credit {
@@ -138,6 +130,10 @@ h1 + p {
 	width: 400px;
 }
 
+select {
+	width: 80%;
+}
+
 /*Tile size determined by puzzle size in fifteen.js*/
 .tile {
 	background-image: url("images/dome.jpg");
@@ -186,25 +182,10 @@ h1 + p {
 /*Responsive styles*/
 
 @media all and (max-width: 800px) {
+	
 	#puzzlearea {
 		height: 300px;
 		width: 300px;
-	}
-
-	#control-wrapper {
-		position: static;
-		display: block;
-		padding: 5%;
-	}
-
-	#controls {
-		position: static;
-		transform: none;
-		-webkit-transform: none;
-		-moz-transform: none;
-		-o-transform: none;
-		text-align: center;
-		margin: 0 auto;
 	}
 
 	.normal {
@@ -212,8 +193,7 @@ h1 + p {
 	}
 
 	.normal p {
-	text-shadow: 2px 2px #000;
-}
-
+		text-shadow: 2px 2px #000;
+	}
 
 }
